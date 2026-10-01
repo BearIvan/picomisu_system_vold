@@ -6,3 +6,18 @@ service vold /system/bin/vold \
     writepid /dev/cpuset/foreground/tasks
     shutdown critical
     group root reserved_disk
+
+on property:debug.save.ce.key=1
+    mkdir /data/misc/vold/user_keys/ce/0/temp/
+    copy /data/misc/vold/user_keys/ce/0/current/encrypted_key /data/misc/vold/user_keys/ce/0/temp/encrypted_key
+    copy /data/misc/vold/user_keys/ce/0/current/keymaster_key_blob /data/misc/vold/user_keys/ce/0/temp/keymaster_key_blob
+    copy /data/misc/vold/user_keys/ce/0/current/secdiscardable /data/misc/vold/user_keys/ce/0/temp/secdiscardable
+    copy /data/misc/vold/user_keys/ce/0/current/stretching /data/misc/vold/user_keys/ce/0/temp/stretching
+    copy /data/misc/vold/user_keys/ce/0/current/version /data/misc/vold/user_keys/ce/0/temp/version
+
+on property:debug.restore.ce.key=1
+    copy /data/misc/vold/user_keys/ce/0/temp/encrypted_key /data/misc/vold/user_keys/ce/0/current/encrypted_key
+    copy /data/misc/vold/user_keys/ce/0/temp/keymaster_key_blob /data/misc/vold/user_keys/ce/0/current/keymaster_key_blob
+    copy /data/misc/vold/user_keys/ce/0/temp/secdiscardable /data/misc/vold/user_keys/ce/0/current/secdiscardable
+    copy /data/misc/vold/user_keys/ce/0/temp/stretching /data/misc/vold/user_keys/ce/0/current/stretching
+    copy /data/misc/vold/user_keys/ce/0/temp/version /data/misc/vold/user_keys/ce/0/current/version
